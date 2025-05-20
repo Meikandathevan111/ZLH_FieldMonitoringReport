@@ -297,13 +297,22 @@ sap.ui.define(
         var oSource = oEvent.getSource();
         debugger;
         var navigationService = sap.ushell.Container.getService("Navigation");
-        var target = {
+        var hash = (navigationService && navigationService.hrefForExternal({
           target: { semanticObject: "UtilitiesClarificationCase", action: "displayClarificationCase" },
           params: {
             BPEMCase: oSource.getText()
           }
-        };
-        navigationService.navigate(target, oController.getOwnerComponent());
+        })) || "";
+
+        var url = window.location.href.split('#')[0] + hash;
+        sap.m.URLHelper.redirect(url, true);
+        // var target = {
+        //   target: { semanticObject: "UtilitiesClarificationCase", action: "displayClarificationCase" },
+        //   params: {
+        //     BPEMCase: oSource.getText()
+        //   }
+        // };
+        // navigationService.navigate(target, oController.getOwnerComponent());
       },
       _closeDialog: function () {
         oController.oDialog.close();
